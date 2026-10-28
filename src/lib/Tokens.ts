@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export const saveToken = (token: string) => {
     localStorage.setItem("token", token)
@@ -40,3 +41,19 @@ axiosRequest.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+
+
+
+
+export const GetUser = () => {
+    const token = getToken()
+    if (!token) return null
+
+    try {
+        const decoded = jwtDecode(token)
+        return decoded
+    } catch (error) {
+        console.log(error)
+    }
+}

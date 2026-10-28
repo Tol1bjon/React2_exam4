@@ -17,3 +17,17 @@ export const RegisterSchema = z.object({
 })
 
 export type RegisterForm = z.infer<typeof RegisterSchema>
+
+
+// ACCOUNT
+export const AccountSchema = z.object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    email: z.string().optional(),
+    address: z.string().optional(),
+    currentPassword: z.string().optional(),
+    newPassword: z.string().optional(),
+    confirmNewPassword: z.string().optional(),
+})
+
+export type AccountForm = z.infer<typeof AccountSchema>

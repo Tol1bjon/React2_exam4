@@ -14,6 +14,8 @@ const Register = lazy(() => import('./Pages/Auth/Register'))
 const Login = lazy(() => import('./Pages/Auth/Login'))
 const NotFound = lazy(() => import('./Pages/Error/NotFound'))
 const Error = lazy(() => import('./Pages/Error/Error'))
+const Account = lazy(() => import('./Pages/Client/Account'))
+const ProductDetail = lazy(() => import('./components/InfoProductions'))
 
 
 
@@ -71,6 +73,18 @@ const App = () => {
           path: '*',
           element: <Suspense fallback={<Loading />}>
             <NotFound/>
+          </Suspense>
+        },
+        {
+          path: '/account',
+          element: <Suspense fallback={<Loading />}>
+            <Account/>
+          </Suspense>
+        },
+        {
+          path: '/product/:id',
+          element: <Suspense fallback={<Loading />}>
+            <ProductDetail/>
           </Suspense>
         }
       ]
