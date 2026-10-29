@@ -20,6 +20,7 @@ const AllProducts = lazy(() => import('./components/AllProduct'))
 const Like = lazy(() => import('./components/Like'))
 const MyOrder = lazy(() => import('./components/Order'))
 const Checkout = lazy(() => import('./components/Checkout'))
+const Feedback = lazy(() => import('./components/Feedback'))
 
 
 
@@ -59,6 +60,12 @@ const App = () => {
           path: '/contact',
           element: <Suspense fallback={<Loading />}>
             <Contact/>
+          </Suspense>
+        },
+        {
+          path: '/feedback',
+          element: <Suspense fallback={<Loading />}>
+            <Feedback/>
           </Suspense>
         },
         {
