@@ -84,3 +84,49 @@ input::-ms-reveal,
 input::-ms-clear {
   display: none !important;
 }
+
+.price-range-input {
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+
+.price-range-input::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+}
+
+.price-range-input::-moz-range-track {
+  height: 4px;
+  background: transparent;
+}
+
+.price-range-input::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #DB4444;
+  border-radius: 50%;
+  background: white;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.price-range-input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #DB4444;
+  border-radius: 50%;
+  background: white;
+  pointer-events: auto;
+  cursor: pointer;
+}
