@@ -10,13 +10,14 @@ import {
 } from '../components/ui/sheet';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthModal from '@/components/AuthModal';
-import { logout, setLike } from '@/Store/RTK';
+import { GetProducts, logout, setLike } from '@/Store/RTK';
 import { getLikes } from '@/lib/Tokens';
 
 const Header = () => {
     const [authOpen, setAuthOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
-    const { token, user } = useSelector((state: any) => state.auth)
+    const [search, setSearch] = useState('')
+    const { token, user, products } = useSelector((state: any) => state.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -34,6 +35,17 @@ const Header = () => {
         const savedLikes = getLikes(user.sid)
         dispatch(setLike(savedLikes))
     }, [dispatch, user?.sid])
+
+    useEffect(() => {
+        if (!products.length) dispatch(GetProducts())
+    }, [dispatch, products.length])
+
+    const searchProducts = search.trim() ? products.filter((item: any) => item.productName.toLowerCase().includes(search.trim().toLowerCase())) : []
+
+    const openProduct = (id: number) => {
+        setSearch('')
+        navigate(`/product/${id}`)
+    }
 
     return (
         <header className='py-[16px] px-4 border-b border-[#E6E6E6]'>
@@ -130,9 +142,30 @@ const Header = () => {
                     </nav>
 
                     <aside className='flex items-center gap-[20px]'>
-                        <div className='flex items-center gap-[10px] bg-[#F5F5F5] py-[7px] px-[16px] rounded-lg text-sm w-[240px]'>
-                            <input className='w-full bg-transparent outline-none text-xs placeholder:text-neutral-500' type="text" placeholder='What are you looking for?' />
-                            <Search className='size-4 shrink-0 text-neutral-700' />
+                        <div className='relative'>
+                            <div className='flex items-center gap-[10px] bg-[#F5F5F5] py-[7px] px-[16px] rounded-lg text-sm w-[240px]'>
+                                <input className='w-full bg-transparent outline-none text-xs placeholder:text-neutral-500' type="text" placeholder='What are you looking for?' value={search} onChange={(event) => setSearch(event.target.value)}
+                                    onKeyDown={(event) => {
+                                        if (event.key === 'Enter' && searchProducts.length) openProduct(searchProducts[0].id)
+                                        if (event.key === 'Escape') setSearch('')
+                                    }}
+                                />
+                                <Search className='size-4 shrink-0 text-neutral-700' />
+                            </div>
+                            {search.trim() && (
+                                <div className='absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded-md border border-neutral-200 bg-white shadow-lg'>
+                                    {searchProducts.length ? searchProducts.map((item: any) => (
+                                        <button key={item.id} type='button' onClick={() => openProduct(item.id)} className='flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-neutral-100'>
+                                            {item.image && (
+                                                <img src={`${import.meta.env.VITE_API}/images/${item.image}`} alt='' className='size-9 object-contain' />
+                                            )}
+                                            <span className='truncate text-xs text-black'>{item.productName}</span>
+                                        </button>
+                                    )) : (
+                                        <p className='px-3 py-2 text-xs text-neutral-500'>No products found</p>
+                                    )}
+                                </div>
+                            )}
                         </div>
                         <NavLink to={'/wishlist'} onClick={(event) => {
                             if (!token) {
@@ -192,6 +225,5 @@ const Header = () => {
 }
 
 export default Header;
-
 
 

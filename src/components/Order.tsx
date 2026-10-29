@@ -11,7 +11,6 @@ const Order = () => {
     const [authOpen, setAuthOpen] = useState(!token);
     const cartProducts = cart.map((cartItem: any) => {
             const product = products.find((item: any) => item.id === cartItem.productId);
-
             return product ? { ...product, quantity: cartItem.quantity }: null;
         }).filter((item: any) => item !== null);
 

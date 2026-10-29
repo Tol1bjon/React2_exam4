@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, Eye, Heart } from 'lucide-react';
 import { addToCart, GetCategories, GetProducts, toggleLike } from '@/Store/RTK';
 import { Store } from '@/Store/Store';
@@ -10,10 +10,8 @@ import AuthModal from '@/components/AuthModal';
 const AllProduct = () => {
     const dispatch = useDispatch<typeof Store.dispatch>();
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
     const { products, categories, like, user, token, loading, error } = useSelector((state: any) => state.auth);
-    const categoryId = Number(searchParams.get('category'));
-    const category = categoryId > 0 ? categoryId : null;
+    const [category, setCategory] = useState<number | null>(null);
     const [sort, setSort] = useState('popularity');
     const [showAll, setShowAll] = useState<string[]>([]);
     const [authOpen, setAuthOpen] = useState(false);
@@ -31,13 +29,6 @@ const AllProduct = () => {
 
     const toggleAll = (name: string) => {
         setShowAll((current) => current.includes(name) ? current.filter((item) => item !== name) : [...current, name]);
-    };
-
-    const setCategory = (id: number | null) => {
-        const params = new URLSearchParams(searchParams);
-        if (id === null) params.delete('category');
-        else params.set('category', String(id));
-        setSearchParams(params);
     };
 
     const filteredProducts = useMemo(() => {
@@ -180,50 +171,14 @@ const AllProduct = () => {
                                         right: `${100 - (selectedMax / maxPriceLimit) * 100}%`,
                                     }}
                                 />
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max={selectedMax}
-                                    value={selectedMin}
-                                    onChange={(event) => setMinPrice(event.target.value)}
-                                    aria-label="Minimum price"
-                                    className="price-range-input"
-                                />
-                                <input
-                                    type="range"
-                                    min={selectedMin}
-                                    max={maxPriceLimit}
-                                    value={selectedMax}
-                                    onChange={(event) => setMaxPrice(event.target.value)}
-                                    aria-label="Maximum price"
-                                    className="price-range-input"
-                                />
+                                <input type="range" min="0" max={selectedMax} value={selectedMin} onChange={(event) => setMinPrice(event.target.value)} aria-label="Minimum price" className="price-range-input"/>
+                                <input type="range" min={selectedMin} max={maxPriceLimit} value={selectedMax} onChange={(event) => setMaxPrice(event.target.value)} aria-label="Maximum price" className="price-range-input"/>
                             </div>
                             <div className="mt-1 grid grid-cols-2 gap-1">
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max={maxPriceLimit}
-                                    placeholder="Min"
-                                    value={minPrice}
-                                    onChange={(event) => setMinPrice(event.target.value)}
-                                    className="h-7 min-w-0 rounded border border-neutral-300 px-1.5 text-[10px]"
-                                />
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max={maxPriceLimit}
-                                    placeholder="Max"
-                                    value={maxPrice}
-                                    onChange={(event) => setMaxPrice(event.target.value)}
-                                    className="h-7 min-w-0 rounded border border-neutral-300 px-1.5 text-[10px]"
-                                />
+                                <input type="number" min="0" max={maxPriceLimit} placeholder="Min" value={minPrice} onChange={(event) => setMinPrice(event.target.value)} className="h-7 min-w-0 rounded border border-neutral-300 px-1.5 text-[10px]"/>
+                                <input type="number" min="0" max={maxPriceLimit} placeholder="Max" value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)} className="h-7 min-w-0 rounded border border-neutral-300 px-1.5 text-[10px]"/>
                             </div>
-                            <button
-                                type="button"
-                                onClick={() => setPriceRange([selectedMin, selectedMax])}
-                                className="mt-1.5 w-full rounded border border-[#DB4444] py-1 text-[10px] text-[#DB4444]"
-                            >
+                            <button type="button" onClick={() => setPriceRange([selectedMin, selectedMax])} className="mt-1.5 w-full rounded border border-[#DB4444] py-1 text-[10px] text-[#DB4444]">
                                 Apply
                             </button>
                         </div>
@@ -287,8 +242,7 @@ const AllProduct = () => {
                                             <img src={`${import.meta.env.VITE_API}/images/${item.image}`} alt={item.productName} className="max-h-full max-w-full object-contain"/>
                                         )}
                                         <div className="absolute right-2 top-2 flex flex-col gap-1">
-                                            <button type="button" onClick={() => handleLike(item.id)} aria-label={like.includes(item.id) ? 'Remove from wishlist' : 'Add to wishlist'} className="flex size-5 items-center justify-center rounded-full bg-white text-black hover:text-[#DB4444]"
-                                            >
+                                            <button type="button" onClick={() => handleLike(item.id)} aria-label={like.includes(item.id) ? 'Remove from wishlist' : 'Add to wishlist'} className="flex size-5 items-center justify-center rounded-full bg-white text-black hover:text-[#DB4444]">
                                                 <Heart className={`size-3 ${like.includes(item.id) ? 'fill-[#DB4444] text-[#DB4444]' : ''}`} />
                                             </button>
                                             <button type="button" onClick={() => handleView(item.id)} aria-label={`View ${item.productName}`} className="flex size-5 items-center justify-center rounded-full bg-white text-black hover:text-[#DB4444]">
