@@ -1,14 +1,15 @@
 import { AccountSchema, type AccountForm } from '@/Schema/Scema';
 import { EditProfil } from '@/Store/RTK';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import type { AppDispatch } from '@/Store/Store';
 
 const Account = () => {
     const { user } = useSelector((state: any) => state.auth)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const { register, handleSubmit, reset } = useForm<AccountForm>({
         resolver: zodResolver(AccountSchema),

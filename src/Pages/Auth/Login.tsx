@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { LoginSchema, type LoginForm } from '@/Schema/Scema';
 import { LoginUser } from '@/Store/RTK';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
+import type { AppDispatch } from '@/Store/Store';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const { error, loading, token } = useSelector((state: any) => state.auth)
+    const dispatch = useDispatch<AppDispatch>()
 
     const { register, handleSubmit, reset } = useForm<LoginForm>({
         resolver: zodResolver(LoginSchema)

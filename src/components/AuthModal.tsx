@@ -1,8 +1,12 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, X } from 'lucide-react';
 
-const AuthModal = ({ isOpen, onClose }) => {
+interface AuthModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     const navigate = useNavigate();
     
     const handleLogin = () => {

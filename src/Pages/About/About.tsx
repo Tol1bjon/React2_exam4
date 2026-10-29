@@ -1,4 +1,3 @@
-import React from 'react';
 import Section1ABOUT from './Section1_ABOUT';
 import Section2ABOUT from './Section2_ABOUT';
 import Section3ABOUT from './Section3_ABOUT';

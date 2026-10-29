@@ -1,33 +1,16 @@
-# React + TypeScript + Vite
+# Exclusive Online Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Run locally
 
-Currently, two official plugins are available:
+1. Copy `.env.example` to `.env`.
+2. Install dependencies with `npm install`.
+3. Start the development server with `npm run dev`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Deploy to Vercel
 
-## React Compiler
+1. Import this repository into Vercel.
+2. Keep the project root at the repository root.
+3. Add the environment variable `VITE_API` with the backend URL: `https://store-beckend-exam4.onrender.com`.
+4. Deploy. Vercel uses `npm run build` and publishes the `dist` folder.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
-# React2_exam4
+The `vercel.json` rewrite supports direct navigation and refresh on React Router routes.

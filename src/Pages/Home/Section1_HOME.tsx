@@ -1,15 +1,22 @@
 import { GetCategories, GetProducts } from '@/Store/RTK';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import { ChevronRight, ArrowRight, Search } from 'lucide-react';
+import type { AppDispatch } from '@/Store/Store';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+const AppleIcon = () => (
+    <svg className="size-8 shrink-0 fill-current text-white sm:size-10" viewBox="0 0 170 170" aria-hidden="true">
+        <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.69-7.74-11.97-14.1-6.19-9.24-11-20.08-14.42-32.53-3.43-12.45-5.14-24.16-5.14-35.13 0-14.24 3.59-25.79 10.77-34.66 7.18-8.87 16.2-13.37 27.06-13.5 4.35 0 9.4 1.13 15.17 3.38 5.76 2.26 9.8 3.44 12.11 3.55 2.12-.11 6.35-1.34 12.69-3.69 6.33-2.34 11.59-3.4 15.77-3.17 12.02.54 21.6 4.78 28.75 12.74-10.65 6.42-15.86 15.24-15.63 26.44.22 8.92 3.65 16.32 10.3 22.21 6.64 5.88 14.52 9.25 23.63 10.12-2.18 6.74-4.79 13.5-7.83 20.29zM119.22 31.84c0-7.07 2.56-13.71 7.69-19.92 5.13-6.2 11.43-10.17 18.9-11.92.22 1.3.33 2.5.33 3.59 0 7.07-2.61 13.6-7.83 19.6-5.22 6-11.64 9.88-19.26 11.64.05-1.09.17-2.09.17-2.99z" />
+    </svg>
+);
+
 const Section1HOME = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const { categories, products } = useSelector((state: any) => state.auth)
 
     useEffect(() => {

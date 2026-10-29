@@ -6,3 +6,5 @@ export const Store = configureStore({
         auth: Redux.reducer
     }
 })
+
+export type AppDispatch = typeof Store.dispatch;

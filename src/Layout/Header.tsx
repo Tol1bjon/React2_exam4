@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '../assets/Group 1116606595.png';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Heart, Search, ShoppingCart, Menu, User, ShoppingBag, LogOut } from 'lucide-react';
@@ -12,13 +12,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthModal from '@/components/AuthModal';
 import { GetProducts, logout, setLike } from '@/Store/RTK';
 import { getLikes } from '@/lib/Tokens';
+import type { AppDispatch } from '@/Store/Store';
 
 const Header = () => {
     const [authOpen, setAuthOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [search, setSearch] = useState('')
     const { token, user, products } = useSelector((state: any) => state.auth)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -225,5 +226,4 @@ const Header = () => {
 }
 
 export default Header;
-
 

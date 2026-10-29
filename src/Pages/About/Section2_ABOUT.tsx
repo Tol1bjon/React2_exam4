@@ -1,4 +1,3 @@
-import React from 'react';
 import { Store, CircleDollarSign, ShoppingBag } from 'lucide-react';
 
 const MoneyBagIcon = ({ className = 'size-7' }: { className?: string }) => (
