@@ -1,6 +1,6 @@
 import { axiosRequest, getToken, GetUser, removeToken, saveToken } from '@/lib/Tokens'
 import type { AccountForm, LoginForm, RegisterForm } from '@/Schema/Scema'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 
 export const LoginUser = createAsyncThunk("Data/LoginUser", async(info: LoginForm, { rejectWithValue }) => {
@@ -89,13 +89,22 @@ export const GetProducts = createAsyncThunk("Data/GetProducts", async(_, {reject
 
 
 
+interface CartUser {
+    productId: number,
+    quantity: number
+}
+
+
+
 interface Auth {
     token: string | null,
     user: any,
     loading: boolean,
     error: string | null,
     categories: any[],
-    products: any[]
+    products: any[],
+    like: number[],
+    cart: CartUser[]
 }
 
 const initialState: Auth = {
@@ -104,7 +113,9 @@ const initialState: Auth = {
     loading: false,
     error: null,
     categories: [],
-    products: []
+    products: [],
+    like: [],
+    cart: []
 }
 
 
@@ -117,7 +128,54 @@ export const Redux = createSlice({
             state.token = null
             state.error = null
             state.user = null
+            state.like = []
             removeToken()
+        },
+
+        toggleLike: (state, action) => {
+            const id = action.payload
+
+            if(state.like.includes(id)){
+                state.like = state.like.filter((item) => item !== id)
+            } else {
+                state.like.push(id)
+            }
+        },
+
+        setLike: (state, action) => {
+            state.like =  action.payload
+        },
+
+        addToCart: (state, action: PayloadAction<number | CartUser>) => {
+            const { productId, quantity } = typeof action.payload === 'number' ? { productId: action.payload, quantity: 1 } : action.payload;
+        
+            const product = state.cart.find((item) => item.productId === productId);
+        
+            if (product) {
+                product.quantity += quantity;
+            } else {
+                state.cart.push({ productId, quantity });
+            }
+        },
+
+        removeCart: (state, action) => {
+            state.cart = state.cart.filter((user) => user.productId != action.payload)
+        },
+
+        clearCart: (state) => {
+            state.cart = []
+        },
+
+        quanitityCart: (state, action) => {
+            const { productId, quanitity } = action.payload
+            if(quanitity <= 0){
+                state.cart = state.cart.filter((user) => user.productId != productId)
+                return
+            }
+            const product = state.cart.find((user) => user.productId == productId)
+            if(product){
+                product.quantity = quanitity
+            }
         }
     },
     extraReducers:(builder) => {
@@ -199,5 +257,5 @@ export const Redux = createSlice({
     }
 })
 
-export const { logout } = Redux.actions
+export const { logout, toggleLike, setLike, addToCart, removeCart, clearCart, quanitityCart } = Redux.actions
 export default Redux.reducer

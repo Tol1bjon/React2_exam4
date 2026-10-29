@@ -64,7 +64,7 @@ const Section5HOME = () => {
                     </div>
 
                     {/* Buy Now Button */}
-                    <NavLink to="/product/369">
+                    <NavLink to="#">
                         <button type="button" className="bg-[#00FF66] text-black font-semibold text-sm sm:text-base px-10 py-3.5 rounded hover:bg-[#00e65c] transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shadow-lg shadow-[#00FF66]/20 mt-2">Buy Now!</button>
                     </NavLink>
                 </div>

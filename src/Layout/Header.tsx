@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../assets/Group 1116606595.png';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Heart, Search, ShoppingCart, Menu, User, ShoppingBag, LogOut } from 'lucide-react';
@@ -10,12 +10,13 @@ import {
 } from '../components/ui/sheet';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthModal from '@/components/AuthModal';
-import { logout } from '@/Store/RTK';
+import { logout, setLike } from '@/Store/RTK';
+import { getLikes } from '@/lib/Tokens';
 
 const Header = () => {
     const [authOpen, setAuthOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
-    const { token } = useSelector((state: any) => state.auth)
+    const { token, user } = useSelector((state: any) => state.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -24,6 +25,15 @@ const Header = () => {
         dispatch(logout())
         navigate('/register')
     }
+
+    useEffect(() => {
+        if(!user?.sid){
+            dispatch(setLike([]))
+            return
+        }
+        const savedLikes = getLikes(user.sid)
+        dispatch(setLike(savedLikes))
+    }, [dispatch, user?.sid])
 
     return (
         <header className='py-[16px] px-4 border-b border-[#E6E6E6]'>
@@ -62,9 +72,14 @@ const Header = () => {
                     </div>
 
                     <div className='flex items-center gap-4'>
-                        <div className='relative cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0'>
+                        <NavLink to='/my-order' onClick={(event) => {
+                            if (!token) {
+                                event.preventDefault()
+                                setAuthOpen(true)
+                            }
+                        }} className='relative cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0'>
                             <ShoppingCart className='size-6 text-black' />
-                        </div>
+                        </NavLink>
                         <div className='relative'>
                             {token ? (
                                 <div onClick={() => setMenuOpen(!menuOpen)} className='p-[4px] bg-[#DB4444] text-white rounded-full cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0'>
@@ -82,7 +97,7 @@ const Header = () => {
                                             <User className="size-5" />
                                             <span>Account</span>
                                         </NavLink>
-                                    <NavLink to="/orders" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">
+                                    <NavLink to="/my-order" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">
                                         <ShoppingBag className="size-5" />
                                         <span>My Order</span>
                                     </NavLink>
@@ -119,10 +134,22 @@ const Header = () => {
                             <input className='w-full bg-transparent outline-none text-xs placeholder:text-neutral-500' type="text" placeholder='What are you looking for?' />
                             <Search className='size-4 shrink-0 text-neutral-700' />
                         </div>
-                        <Heart className='size-6 cursor-pointer text-black transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0' />
-                        <div className='relative cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0'>
+                        <NavLink to={'/wishlist'} onClick={(event) => {
+                            if (!token) {
+                                event.preventDefault()
+                                setAuthOpen(true)
+                            }
+                        }}>
+                            <Heart className='size-6 cursor-pointer text-black transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0' />
+                        </NavLink>
+                        <NavLink to='/my-order' onClick={(event) => {
+                            if (!token) {
+                                event.preventDefault()
+                                setAuthOpen(true)
+                            }
+                        }} className='relative cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0'>
                             <ShoppingCart className='size-6 text-black' />
-                        </div>
+                        </NavLink>
                         <div className='relative'>
                             {token ? (
                                 <div onClick={() => setMenuOpen(!menuOpen)} className='p-[4px] bg-[#DB4444] text-white rounded-full cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0'>
@@ -140,7 +167,7 @@ const Header = () => {
                                             <User className="size-5" />
                                             <span>Account</span>
                                         </NavLink>
-                                    <NavLink to="/orders" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">
+                                    <NavLink to="/my-order" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">
                                         <ShoppingBag className="size-5" />
                                         <span>My Order</span>
                                     </NavLink>
@@ -165,9 +192,6 @@ const Header = () => {
 }
 
 export default Header;
-
-
-
 
 
 

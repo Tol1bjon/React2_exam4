@@ -16,6 +16,10 @@ const NotFound = lazy(() => import('./Pages/Error/NotFound'))
 const Error = lazy(() => import('./Pages/Error/Error'))
 const Account = lazy(() => import('./Pages/Client/Account'))
 const ProductDetail = lazy(() => import('./components/InfoProductions'))
+const AllProducts = lazy(() => import('./components/AllProduct'))
+const Like = lazy(() => import('./components/Like'))
+const MyOrder = lazy(() => import('./components/Order'))
+const Checkout = lazy(() => import('./components/Checkout'))
 
 
 
@@ -85,6 +89,30 @@ const App = () => {
           path: '/product/:id',
           element: <Suspense fallback={<Loading />}>
             <ProductDetail/>
+          </Suspense>
+        },
+        {
+          path: '/all-product',
+          element: <Suspense fallback={<Loading />}>
+            <AllProducts/>
+          </Suspense>
+        },
+        {
+          path: '/wishlist',
+          element: <Suspense fallback={<Loading />}>
+            <Like/>
+          </Suspense>
+        },
+        {
+          path: '/my-order',
+          element: <Suspense fallback={<Loading />}>
+            <MyOrder/>
+          </Suspense>
+        },
+        {
+          path: '/checkout',
+          element: <Suspense fallback={<Loading />}>
+            <Checkout/>
           </Suspense>
         }
       ]

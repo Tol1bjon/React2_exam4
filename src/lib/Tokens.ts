@@ -57,3 +57,16 @@ export const GetUser = () => {
         console.log(error)
     }
 }
+
+
+
+
+export const getLikes = (user: string) => {
+    const savedLikes = localStorage.getItem(`likes_${user}`)
+    return savedLikes ? JSON.parse(savedLikes) : []
+}
+
+
+export const saveLikes = (user: string, likes: any) => {
+    localStorage.setItem(`likes_${user}`, JSON.stringify(likes))
+}
