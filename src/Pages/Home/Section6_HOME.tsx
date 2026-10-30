@@ -21,13 +21,8 @@ const Section6HOME = () => {
             setAuthOpen(true)
             return;
         }
-
-        const nextLikes = like.includes(id)
-            ? like.filter((item: number) => item !== id)
-            : [...like, id];
-
+        const nextLikes = like.includes(id) ? like.filter((item: number) => item !== id) : [...like, id];
         dispatch(toggleLike(id));
-
         if (user?.sid) {
             saveLikes(String(user.sid), nextLikes);
         }
@@ -50,8 +45,6 @@ const Section6HOME = () => {
 
         navigate(`/product/${id}`);
     };
-
-    if (items.length === 0) return null;
 
     return (
         <section className="max-w-[1240px] mx-auto px-4 py-8 sm:py-14">

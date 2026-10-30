@@ -3,7 +3,7 @@ import type { AccountForm, LoginForm, RegisterForm } from '@/Schema/Scema'
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 
-export const LoginUser = createAsyncThunk("Data/LoginUser", async(info: LoginForm, { rejectWithValue }) => {
+export const LoginUser = createAsyncThunk("Data/LoginUser", async(info: LoginForm) => {
     try {
         const {data} = await axiosRequest.post("/Account/login", info)
         const token = data.data
@@ -11,13 +11,13 @@ export const LoginUser = createAsyncThunk("Data/LoginUser", async(info: LoginFor
         console.log(token)
         return token
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.errors?.[0] || "Login failed")
+        console.log(error)
     }
 })
 
 
 
-export const RegisterUser = createAsyncThunk("Data/RegisterUser", async(info: RegisterForm, { rejectWithValue }) => {
+export const RegisterUser = createAsyncThunk("Data/RegisterUser", async(info: RegisterForm) => {
     try {
         const payload = {
             userName: info.userName,
@@ -30,28 +30,28 @@ export const RegisterUser = createAsyncThunk("Data/RegisterUser", async(info: Re
         saveToken(token)
         return token
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.errors?.[0] || "Reister failed")
+        console.log(error)
     }
 })
 
 
 
 
-export const GoogleAuthUser = createAsyncThunk("Data/GoogleAuthUser", async(info: any, { rejectWithValue }) => {
+export const GoogleAuthUser = createAsyncThunk("Data/GoogleAuthUser", async(info: any) => {
     try {
         const { data } = await axiosRequest.post("/Account/google", {credential: info})
         const token = data.data
         saveToken(token)
         return token
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.errors?.[0] || "Login failed")
+        console.log(error)
     }
 })
 
 
 
 
-export const EditProfil = createAsyncThunk("Data/EditProfile", async(update: AccountForm, { rejectWithValue }) => {
+export const EditProfil = createAsyncThunk("Data/EditProfile", async(update: AccountForm) => {
     try {
         const payload: any = { ...update }
         if (!payload.currentPassword) delete payload.currentPassword
@@ -61,29 +61,29 @@ export const EditProfil = createAsyncThunk("Data/EditProfile", async(update: Acc
         const {data} = await axiosRequest.put("/UserProfile/update-user-profile", payload)
         return data.data
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.errors?.[0] || "failed to update profile")
+        console.log(error)
     }
 })
 
 
 
-export const GetCategories = createAsyncThunk("Data/GetCategories", async(_, {rejectWithValue}) => {
+export const GetCategories = createAsyncThunk("Data/GetCategories", async() => {
     try{
         const {data} = await axiosRequest.get("/Category/get-categories")
         return data.data
     }catch (error: any){
-        return rejectWithValue(error.response?.data?.errors?.[0] || "failed to get categories")
+        console.log(error)
     }
 })
 
 
 
-export const GetProducts = createAsyncThunk("Data/GetProducts", async(_, {rejectWithValue}) => {
+export const GetProducts = createAsyncThunk("Data/GetProducts", async() => {
     try{
         const {data} = await axiosRequest.get("/Product/get-products")
         return data.data?.products
     }catch (error: any){
-        return rejectWithValue(error.response?.data?.errors?.[0] || "failed to get products")
+        console.log(error)
     }
 })
 

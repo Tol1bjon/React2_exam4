@@ -44,7 +44,7 @@ const Account = () => {
         if(EditProfil.fulfilled.match(res)){
             alert("Account has been updated successfully!")
         } else {
-            alert(res.payload || "Failed to update account!")
+            alert("Failed to update account!")
         }
     }
 

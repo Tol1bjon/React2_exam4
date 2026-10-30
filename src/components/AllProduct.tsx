@@ -23,9 +23,9 @@ const AllProduct = () => {
     const selectedMax = maxPrice === '' ? maxPriceLimit : Math.max(selectedMin, Math.min(maxPriceLimit, Number(maxPrice) || 0));
 
     useEffect(() => {
-        if (!products.length) dispatch(GetProducts());
-        if (!categories.length) dispatch(GetCategories());
-    }, [dispatch, products.length, categories.length]);
+        dispatch(GetProducts());
+        dispatch(GetCategories());
+    }, []);
 
     const toggleAll = (name: string) => {
         setShowAll((current) => current.includes(name) ? current.filter((item) => item !== name) : [...current, name]);

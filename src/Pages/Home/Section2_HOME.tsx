@@ -40,8 +40,6 @@ const Section2HOME = () => {
         return () => clearInterval(timer);
     }, [deadline]);
 
-    if (items.length === 0) return null;
-
 
 
 

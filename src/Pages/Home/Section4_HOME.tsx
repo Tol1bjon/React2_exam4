@@ -19,12 +19,8 @@ const Section4HOME = () => {
             return;
         }
 
-        const nextLikes = like.includes(id)
-            ? like.filter((item: number) => item !== id)
-            : [...like, id];
-
+        const nextLikes = like.includes(id) ? like.filter((item: number) => item !== id) : [...like, id];
         dispatch(toggleLike(id));
-
         if (user?.sid) {
             saveLikes(String(user.sid), nextLikes);
         }
